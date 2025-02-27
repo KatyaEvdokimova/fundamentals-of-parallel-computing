@@ -9,7 +9,7 @@ using namespace std;
 
 mutex mtx;
 
-// Вычисление факториала
+// Р’С‹С‡РёСЃР»РµРЅРёРµ С„Р°РєС‚РѕСЂРёР°Р»Р°
 void partial_factorial(long long start, long long end, long long& result) {
     long long temp = 1;
     for (long long i = start; i <= end; ++i) {
@@ -19,7 +19,7 @@ void partial_factorial(long long start, long long end, long long& result) {
     result *= temp;
 }
 
-// Функция для вычисления факториала в многопоточном режиме
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ С„Р°РєС‚РѕСЂРёР°Р»Р° РІ РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕРј СЂРµР¶РёРјРµ
 long long factorial_multithreaded(int n, int num_threads) {
     if (n == 0 || n == 1) return 1;
 
@@ -60,22 +60,22 @@ long long factorial(int n) {
 int main() {
     setlocale(LC_ALL, "Ru");
     int n, num_threads;
-    cout << "Введите число: ";
+    cout << "Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ: ";
     cin >> n;
-    cout << "Введите количество потоков: ";
+    cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕС‚РѕРєРѕРІ: ";
     cin >> num_threads;
 
     auto start_time = chrono::high_resolution_clock::now();
     long long result_single = factorial(n);
     auto end_time = chrono::high_resolution_clock::now();
-    cout << "Факториал (один поток): " << result_single << endl;
-    cout << "Время выполнения (один поток): " << chrono::duration<double>(end_time - start_time).count() << " сек." << endl;
+    cout << "Р¤Р°РєС‚РѕСЂРёР°Р» (РѕРґРёРЅ РїРѕС‚РѕРє): " << result_single << endl;
+    cout << "Р’СЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ (РѕРґРёРЅ РїРѕС‚РѕРє): " << chrono::duration<double>(end_time - start_time).count() << " Г±ГҐГЄ." << endl;
 
     start_time = chrono::high_resolution_clock::now();
     long long result_multi = factorial_multithreaded(n, num_threads);
     end_time = chrono::high_resolution_clock::now();
-    cout << "Факториал (многопоточно): " << result_multi << endl;
-    cout << "Время выполнения (многопоточно): " << chrono::duration<double>(end_time - start_time).count() << " сек." << endl;
+    cout << "Р¤Р°РєС‚РѕСЂРёР°Р» (РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕ): " << result_multi << endl;
+    cout << "Р’СЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ (РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕ): " << chrono::duration<double>(end_time - start_time).count() << " Г±ГҐГЄ." << endl;
 
     return 0;
 }
