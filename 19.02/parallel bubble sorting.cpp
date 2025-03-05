@@ -11,7 +11,7 @@ void parallelBubbleSort(std::vector<int>& arr) {
     while (!sorted) {
         sorted = true;
 
-        // Четный проход
+        // Р§РµС‚РЅС‹Р№ РїСЂРѕС…РѕРґ
 #pragma omp parallel for shared(arr, sorted)
         for (int i = 0; i < n - 1; i += 2) {
             if (arr[i] > arr[i + 1]) {
@@ -19,11 +19,10 @@ void parallelBubbleSort(std::vector<int>& arr) {
                 sorted = false;
             }
         }
-
-        // Синхронизация потоков перед следующим проходом
+// РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РїРѕС‚РѕРєРѕРІ РїРµСЂРµРґ СЃР»РµРґСѓСЋС‰РёРј РїСЂРѕС…РѕРґРѕРј
 #pragma omp barrier
 
-// Нечетный проход
+// РќРµС‡РµС‚РЅС‹Р№ РїСЂРѕС…РѕРґ
 #pragma omp parallel for shared(arr, sorted)
         for (int i = 1; i < n - 1; i += 2) {
             if (arr[i] > arr[i + 1]) {
@@ -42,18 +41,18 @@ int main() {
     int n = 20;
     std::vector<int> arr(n);
 
-    // Заполнение массива случайными числами
+   // Р—Р°РїРѕР»РЅРµРЅРёРµ РјР°СЃСЃРёРІР° СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё
     for (int& x : arr) {
         x = std::rand() % 100;
     }
 
-    std::cout << "Исходный массив: ";
+    std::cout << "РСЃС…РѕРґРЅС‹Р№ РјР°СЃСЃРёРІ: ";
     for (const int& x : arr) std::cout << x << " ";
     std::cout << std::endl;
 
     parallelBubbleSort(arr);
 
-    std::cout << "Отсортированный массив: ";
+    std::cout << "РћС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ: ";
     for (const int& x : arr) std::cout << x << " ";
     std::cout << std::endl;
 
