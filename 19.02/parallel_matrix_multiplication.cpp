@@ -7,16 +7,16 @@ using namespace std;
 
 using Matrix = vector<vector<int>>;
 
-// Функция для генерации случайной матрицы
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РіРµРЅРµСЂР°С†РёРё СЃР»СѓС‡Р°Р№РЅРѕР№ РјР°С‚СЂРёС†С‹
 Matrix generateMatrix(int rows, int cols) {
     Matrix mat(rows, vector<int>(cols));
     for (int i = 0; i < rows; ++i)
         for (int j = 0; j < cols; ++j)
-            mat[i][j] = rand() % 10; // Заполняем случайными числами от 0 до 9
+            mat[i][j] = rand() % 10; // Р—Р°РїРѕР»РЅСЏРµРј СЃР»СѓС‡Р°Р№РЅС‹РјРё С‡РёСЃР»Р°РјРё РѕС‚ 0 РґРѕ 9
     return mat;
 }
 
-// Однопоточное умножение матриц
+// РћРґРЅРѕРїРѕС‚РѕС‡РЅРѕРµ СѓРјРЅРѕР¶РµРЅРёРµ РјР°С‚СЂРёС†
 Matrix multiplySingleThreaded(const Matrix& A, const Matrix& B) {
     int n = A.size(), m = A[0].size(), p = B[0].size();
     Matrix C(n, vector<int>(p, 0));
@@ -29,7 +29,7 @@ Matrix multiplySingleThreaded(const Matrix& A, const Matrix& B) {
     return C;
 }
 
-// Параллельное умножение матриц
+// РџР°СЂР°Р»Р»РµР»СЊРЅРѕРµ СѓРјРЅРѕР¶РµРЅРёРµ РјР°С‚СЂРёС†
 Matrix multiplyParallel(const Matrix& A, const Matrix& B) {
     int n = A.size(), m = A[0].size(), p = B[0].size();
     Matrix C(n, vector<int>(p, 0));
@@ -49,24 +49,24 @@ Matrix multiplyParallel(const Matrix& A, const Matrix& B) {
 
 int main() {
     setlocale(LC_ALL, "RU");
-    int N = 500; // Размерность матрицы
+    int N = 500; 
 
     Matrix A = generateMatrix(N, N);
     Matrix B = generateMatrix(N, N);
 
-    // Однопоточное выполнение
+    // РћРґРЅРѕРїРѕС‚РѕС‡РЅРѕРµ РІС‹РїРѕР»РЅРµРЅРёРµ
     auto start = chrono::high_resolution_clock::now();
     Matrix C1 = multiplySingleThreaded(A, B);
     auto end = chrono::high_resolution_clock::now();
-    cout << "Однопоточное время: "
+    cout << "ГЋГ¤Г­Г®ГЇГ®ГІГ®Г·Г­Г®ГҐ ГўГ°ГҐГ¬Гї: "
         << chrono::duration_cast<chrono::milliseconds>(end - start).count()
         << " ms" << endl;
 
-    // Многопоточное выполнение
+    // РњРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕРµ РІС‹РїРѕР»РЅРµРЅРёРµ
     start = chrono::high_resolution_clock::now();
     Matrix C2 = multiplyParallel(A, B);
     end = chrono::high_resolution_clock::now();
-    cout << "Многопоточное время: "
+    cout << "ГЊГ­Г®ГЈГ®ГЇГ®ГІГ®Г·Г­Г®ГҐ ГўГ°ГҐГ¬Гї: "
         << chrono::duration_cast<chrono::milliseconds>(end - start).count()
         << " ms" << endl;
 
