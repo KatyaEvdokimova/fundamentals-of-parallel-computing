@@ -5,31 +5,30 @@
 #include <vector>
 #include <chrono>
 
-std::mutex mtx;  // Мьютекс для синхронизации
+std::mutex mtx;  // РњСЊСЋС‚РµРєСЃ РґР»СЏ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё
 std::condition_variable cv;
-bool ready = false; // Флаг готовности ресурса
-int shared_resource = 0; // Общий ресурс
-
+bool ready = false; // Р¤Р»Р°Рі РіРѕС‚РѕРІРЅРѕСЃС‚Рё СЂРµСЃСѓСЂСЃР°
+int shared_resource = 0; // РћР±С‰РёР№ СЂРµСЃСѓСЂСЃ
 void worker(int id) {
     auto start = std::chrono::high_resolution_clock::now();
     std::unique_lock<std::mutex> lock(mtx);
-    cv.wait(lock, [] { return ready; }); // Ожидание сигнала
+    cv.wait(lock, [] { return ready; }); // РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р°
 
-    // Доступ к общему ресурсу
+    // Р”РѕСЃС‚СѓРї Рє РѕР±С‰РµРјСѓ СЂРµСЃСѓСЂСЃСѓ
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Поток " << id << " получил доступ к ресурсу. Значение: " << shared_resource
-        << " Время ожидания: " << elapsed.count() << " секунд" << std::endl;
+    std::cout << "РџРѕС‚РѕРє " << id << " РїРѕР»СѓС‡РёР» РґРѕСЃС‚СѓРї Рє СЂРµСЃСѓСЂСЃСѓ. Р—РЅР°С‡РµРЅРёРµ: " << shared_resource
+        << " Р’СЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ: " << elapsed.count() << " СЃРµРєСѓРЅРґ" << std::endl;
 }
 
 void initializer() {
     {
         std::lock_guard<std::mutex> lock(mtx);
-        shared_resource = 42; // Инициализация ресурса
+        shared_resource = 42; // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЂРµСЃСѓСЂСЃР°
         ready = true;
-        std::cout << "Ресурс инициализирован" << std::endl;
+        std::cout << "Р РµСЃСѓСЂСЃ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ" << std::endl;
     }
-    cv.notify_all(); // Уведомление всех потоков
+    cv.notify_all(); // РЈРІРµРґРѕРјР»РµРЅРёРµ РІСЃРµС… РїРѕС‚РѕРєРѕРІ
 }
 
 int main() {
@@ -41,7 +40,7 @@ int main() {
         threads.emplace_back(worker, i);
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(1)); // Имитация задержки
+    std::this_thread::sleep_for(std::chrono::seconds(1)); // РРјРёС‚Р°С†РёСЏ Р·Р°РґРµСЂР¶РєРё
     initializer();
 
     for (auto& t : threads) {
