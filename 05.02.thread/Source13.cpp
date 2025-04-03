@@ -5,9 +5,9 @@
 
 using namespace std;
 
-mutex mtx; // Мьютекс для защиты общей переменной
+mutex mtx; // РњСЊСЋС‚РµРєСЃ РґР»СЏ Р·Р°С‰РёС‚С‹ РѕР±С‰РµР№ РїРµСЂРµРјРµРЅРЅРѕР№
 
-// Функция для получения минора матрицы
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РјРёРЅРѕСЂР° РјР°С‚СЂРёС†С‹
 vector<vector<int>> getMinor(const vector<vector<int>>& matrix, int row, int col) {
     int n = matrix.size();
     vector<vector<int>> minor;
@@ -23,7 +23,7 @@ vector<vector<int>> getMinor(const vector<vector<int>>& matrix, int row, int col
     return minor;
 }
 
-// Рекурсивная функция для вычисления определителя
+// Р РµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РѕРїСЂРµРґРµР»РёС‚РµР»СЏ
 int determinant(const vector<vector<int>>& matrix) {
     int n = matrix.size();
     if (n == 1) return matrix[0][0];
@@ -33,7 +33,7 @@ int determinant(const vector<vector<int>>& matrix) {
     vector<thread> threads;
     vector<int> results(n, 0);
 
-    // Функция для вычисления минора в отдельном потоке
+    // Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ РјРёРЅРѕСЂР° РІ РѕС‚РґРµР»СЊРЅРѕРј РїРѕС‚РѕРєРµ
     auto computeMinor = [&](int col) {
         vector<vector<int>> minor = getMinor(matrix, 0, col);
         int sign = (col % 2 == 0) ? 1 : -1;
@@ -43,17 +43,17 @@ int determinant(const vector<vector<int>>& matrix) {
         mtx.unlock();
     };
 
-    // Создание потоков
+    // РЎРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєРѕРІ
     for (int col = 0; col < n; ++col) {
         threads.emplace_back(computeMinor, col);
     }
 
-    // Ожидание завершения всех потоков
+    // РћР¶РёРґР°РЅРёРµ Р·Р°РІРµСЂС€РµРЅРёСЏ РІСЃРµС… РїРѕС‚РѕРєРѕРІ
     for (auto& th : threads) {
         th.join();
     }
 
-    // Суммирование результатов
+    // РЎСѓРјРјРёСЂРѕРІР°РЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ
     for (int res : results) {
         det += res;
     }
