@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define N 500  // Размер матрицы
+#define N 500  // Р Р°Р·РјРµСЂ РјР°С‚СЂРёС†С‹
 
 void generateMatrix(std::vector<std::vector<int>>& matrix) {
     for (int i = 0; i < N; i++) {
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     MPI_Gather(&local_C[0], rows_per_proc * N, MPI_INT, &C[0][0], rows_per_proc * N, MPI_INT, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
-        std::cout << "Sample output: " << C[0][0] << " " << C[N / 2][N / 2] << " " << C[N - 1][N - 1] << std::endl;
+        std::cout << "Sample output: " << C[0][0] << " " << C[N/2][N/2] << " " << C[N-1][N-1] << std::endl;
     }
 
     MPI_Finalize();
